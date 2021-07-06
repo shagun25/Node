@@ -2,15 +2,21 @@ const path = require('path');
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const expressHbs = require('express-handlebars');
 
 const app = express();
 
-app.set('view engine','pug');
+app.engine('Hbs', expressHbs({
+    layoutsDir: 'views/layouts/',
+    defaultLayout: 'main-layout',
+    extname: 'hbs'
+  }));
+app.set('view engine','Hbs');
 app.set('views','views');
 
 const admindata = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
-const { render } = require('pug');
+
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname,'public')));
